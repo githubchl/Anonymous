@@ -9,10 +9,10 @@ const router = new Router(); // 实例化路由
 
 app.use(bodyParser())
 
-router.post("/",async (ctx, next) => {
- let data = await DB.insert("user",{"username":"陈辉龙","password":"123456","phone":"18814379677"});
- console.log(data.result);
- ctx.body = data;
+router.get("/",async (ctx, next) => {
+ // let data = await DB.insert("user",{"username":"陈辉龙","password":"123456","phone":"18814379677"});
+ // console.log(data.result);
+ ctx.body = "Hello Anonymous";
 });
 
 //配置层级路由
@@ -25,6 +25,6 @@ app.use(router.routes()) //启动路由
 
 
 
-app.listen(3000, () => {
-  console.log('This server is running at http://localhost:' + 3000)
+app.listen(3001, () => {
+  console.log('This server is running at http://localhost:' + 3001)
 })
