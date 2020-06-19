@@ -1,4 +1,4 @@
-var router = require('koa-router')();
+let router = require('koa-router')();
 const user = require("./user.js");
 
 

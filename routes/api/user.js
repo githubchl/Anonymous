@@ -29,7 +29,6 @@ router.post('/login', async (ctx,next)=>{
 	}
 	try{
 		result = await userDao.login(param);
-		ctx.body = result;
 	}catch(err){
 		result.code = -1;
 		result.data.msg = "登录失败";

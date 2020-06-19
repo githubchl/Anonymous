@@ -5,7 +5,7 @@ class UserDao {
 		
 	login(param){
 		return new Promise((resolve, reject) => {
-			let reuslt = {
+			let result = {
 				code: 200,
 				data: {
 				  msg: '登录成功',
@@ -17,11 +17,11 @@ class UserDao {
 						reject(err);					
 					}
 					if(docs.length>0){
-						resolve(reuslt);
+						resolve(result);
 					}else{
-						reuslt.code = -1;
-						reuslt.data.msg ="登录失败";
-						resolve(reuslt);
+						result.code = -1;
+						result.data.msg ="登录失败";
+						resolve(result);
 					}
 					
 				})
@@ -33,7 +33,7 @@ class UserDao {
 	
 	 async regist(param){
 		return new Promise((resolve, reject) => {
-			let reuslt = {
+			let result = {
 				code: 200,
 				data: {
 				  msg: '注册成功',
@@ -46,13 +46,13 @@ class UserDao {
 						reject(err);					
 					}else{
 						if(docs.length>0){
-							reuslt.code = -1;
-							reuslt.data.msg ="注册失败，手机号码已被注册";
-							resolve(reuslt);
+							result.code = -1;
+							result.data.msg ="注册失败，手机号码已被注册";
+							resolve(result);
 						}else{
 							try{
 								let data = await DB.insert("user",param);
-								resolve(reuslt);
+								resolve(result);
 							}catch(err){
 								resolve(err);
 							}	
