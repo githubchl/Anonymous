@@ -10,6 +10,18 @@ const koaBody = require('koa-body');
 const app = new Koa();
 const router = new Router(); // 实例化路由
 
+//设置跨域
+app.use(async (ctx, next) => {
+    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+    ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    if (ctx.method == 'OPTIONS') {
+        ctx.body = 200;
+    } else {
+        await next();
+    }
+});
+
 app.use(koaBody({
 	multipart: true,  // 允许上传多个文件
 }));
@@ -32,7 +44,7 @@ router.use("/admin",admin.routes());
 app.use(router.routes()) //启动路由
 	.use(router.allowedMethods());
 
-
+app.use(require('koa-static')(__dirname + '/public'));
 
 app.listen(3001, () => {
   console.log('This server is running at http://localhost:' + 3001)
