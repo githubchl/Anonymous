@@ -13,7 +13,7 @@ router.post('/login',async (ctx,next)=> {
     let param = ctx.request.body;
     if(!param.username){
         result.code = -1;
-        result.data.msg = "手机号码为空";
+        result.data.msg = "账户名为空";
         ctx.body = result;
         return;
     }

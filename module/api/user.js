@@ -11,8 +11,8 @@ class UserDao {
 				  msg: '登录成功',
 			}};
 			DB.connect().then((db) => {
-				let result = db.collection("user").find(param);
-				result.toArray((err, docs) => {
+				let data = db.collection("user").find(param);
+                data.toArray((err, docs) => {
 					if (err) {
 						reject(err);					
 					}
