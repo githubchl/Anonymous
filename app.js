@@ -6,10 +6,14 @@ const bodyParser = require('koa-bodyparser'); // 处理post请求，把 koa2 上
 const DB = require("./module/db.js");
 const koaBody = require('koa-body');
 const compress = require('koa-compress');
+const startTask = require("./utils/timedTask");
 
 
 const app = new Koa();
 const router = new Router(); // 实例化路由
+
+
+startTask();
 
 //设置跨域
 app.use(async (ctx, next) => {

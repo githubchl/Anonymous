@@ -1,4 +1,3 @@
-const MongoClient = require("mongodb").MongoClient; //mongodb数据库
 const DB = require("../db.js");
 
 class UserDao {

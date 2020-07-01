@@ -1,6 +1,6 @@
 let router = require('koa-router')();
 const DB = require("../../module/db")
-// const user = require("./user.js");
+const CountDao = require("../../module/admin/count")
 
 
 router.post('/login',async (ctx,next)=> {
@@ -34,6 +34,24 @@ router.post('/login',async (ctx,next)=> {
         result.code = -1;
         result.data.msg = "登录失败";
     }
+    ctx.body = result;
+});
+
+
+router.post('/count',async (ctx,next)=> {
+    let result = {
+        code: 200,
+        data: {
+            count: 0,
+        }
+    };
+    let rs = await DB.find("count",{flag:1});
+    if (rs.length>0){
+        result.data.count = rs[0].count;
+    }
+    let countDao = new CountDao();
+    let list = await countDao.findCountList();
+    result.data.list = list;
     ctx.body = result;
 });
 
