@@ -1,5 +1,6 @@
 var router = require('koa-router')();
 const DB = require("../../module/db.js");
+const {getNowFormatDate} = require("../../utils/dateUtil");
 
 const UserDao = require("../../module/api/user.js");
 
@@ -65,6 +66,7 @@ router.post('/regist', async (ctx,next)=> {
 	}
 	try{
 		result = await userDao.regist(param);
+        addCount();
 		ctx.body = result;
 	}catch(err){
 		result.code = -1;
@@ -72,6 +74,29 @@ router.post('/regist', async (ctx,next)=> {
 	}
 	
 });
+
+
+async function addCount(){
+    let result = await DB.find("count", {flag: 1, type:1});
+    // console.log(result);
+    //更新
+    if (result && result.length > 0) {
+        let count = result[0].count;
+        await DB.update("count", {flag: 1,type:1}, {count: count + 1})
+    } else {//插入
+        await DB.insert("count", {flag: 1, type:1,count: 1})
+    }
+
+    let currentDate = getNowFormatDate();
+    let rs = await DB.find("count", {date: currentDate, flag: 2,type:1});
+    if (rs && rs.length > 0) {
+        let count = rs[0].count;
+        await DB.update("count", {date: currentDate, flag: 2,type:1}, {count: count + 1})
+    } else {
+        console.log("创建新记录");
+        await DB.insert("count", {count: 0, date: currentDate, flag: 2,type:1})
+    }
+}
 
 
 module.exports = router;

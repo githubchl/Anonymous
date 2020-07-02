@@ -11,25 +11,25 @@ router.get('/', async (ctx, next) => {
 
 router.post('/count', async (ctx, next) => {
 
-    let result = await DB.find("count", {});
+    let result = await DB.find("count", {flag: 1, type:2});
     // console.log(result);
     //更新
     if (result && result.length > 0) {
         let count = result[0].count;
-        await DB.update("count", {flag: 1}, {count: count + 1})
+        await DB.update("count", {flag: 1,type:2}, {count: count + 1})
     } else {//插入
-        await DB.insert("count", {flag: 1, count: 1})
+        await DB.insert("count", {flag: 1, type:2,count: 1})
 
     }
 
     let currentDate = getNowFormatDate();
-    let rs = await DB.find("count", {date: currentDate, flag: 2});
+    let rs = await DB.find("count", {date: currentDate, flag: 2,type:2});
     if (rs && rs.length > 0) {
         let count = rs[0].count;
-        await DB.update("count", {date: currentDate, flag: 2}, {count: count + 1})
+        await DB.update("count", {date: currentDate, flag: 2,type:2}, {count: count + 1})
     } else {
         console.log("创建新记录");
-        await DB.insert("count", {count: 0, date: currentDate, flag: 2})
+        await DB.insert("count", {count: 0, date: currentDate, flag: 2,type:2})
     }
 
     ctx.body = {

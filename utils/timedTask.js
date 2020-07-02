@@ -16,16 +16,29 @@ let config = {
 //新增一条数据
 async function task() {
     let currentDate = getNowFormatDate();
+
+    //type1为用户数量，type2为打开次数
+    let rs = await DB.find("count", {date: currentDate,type:1,flag:2});
+
+    if (!rs || rs.length == 0) {
+        console.log("创建新记录");
+        DB.insert("count", {count: 0, date: currentDate,type:1,flag:2})
+    }else{
+        console.log("不创建新记录");
+    }
+
     //currentDate = "2020-06-28";
-    let result = await DB.find("count", {date: currentDate,flag:2});
+    let result = await DB.find("count", {date: currentDate,type:2,flag:2});
 
 
     if (!result || result.length == 0) {
         console.log("创建新记录");
-        DB.insert("count", {count: 0, date: currentDate,flag:2})
+        DB.insert("count", {count: 0, date: currentDate,type:2,flag:2})
     }else{
         console.log("不创建新记录");
     }
+
+
 }
 
 
