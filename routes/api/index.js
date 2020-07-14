@@ -1,4 +1,6 @@
 let router = require('koa-router')();
+const fs = require("fs");
+const path = require("path");
 const user = require("./user.js");
 const DB = require("../../module/db.js");
 const {getNowFormatDate} = require("../../utils/dateUtil");
@@ -40,6 +42,34 @@ router.post('/count', async (ctx, next) => {
     };
 });
 
+router.post('/upload', async (ctx, next) => {
+    //console.log(ctx.request.files.video);
+    try {
+        const video = ctx.request.files.file;
+        //创建可读流
+        const reader = fs.createReadStream(video.path);
+        let filePath = path.join(__dirname, '../../public/upload/') + `/${video.name}`;
+        //创建可写流
+        const upStream = fs.createWriteStream(filePath);
+        // 可读流通过管道写入可写流
+        reader.pipe(upStream);
+        return ctx.body = {
+            code: 200,
+            data: {
+                msg: '上传成功',
+            }
+        };
+    }catch (e) {
+        return ctx.body = {
+            code: 200,
+            data: {
+                msg: '上传失败',
+            }
+        };
+    }
+
+
+});
 
 router.use("/user", user.routes());
 

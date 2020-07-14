@@ -29,6 +29,9 @@ app.use(async (ctx, next) => {
 
 app.use(koaBody({
 	multipart: true,  // 允许上传多个文件
+    // formidable:{
+	 //    maxFieldsSize:2*1024*1024    // 设置上传文件大小最大限制，默认2M
+    // }
 }));
 
 //app.use(bodyParser())
